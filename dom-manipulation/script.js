@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const quoteCategory = document.getElementById('quote-category');
     const displayRandomQuoteBtn = document.getElementById('showRandomQuote');
     const quoteDisplay = document.getElementById('quote-display');
-    const addQuoteForm = document.getElementById('createAddQuoteForm');
+    const createAddQuoteForm = document.getElementById('createAddQuoteForm');
     const addCategoryForm = document.getElementById('add-category-form');
 
     let quotes = {
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    generateQuoteBtn.addEventListener('click', generateQuote);
+    displayRandomQuoteBtn.addEventListener('click', showRandomQuote);
 
     createAddQuoteForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // If the current category is selected, regenerate the quote to possibly show the new one
             if (categorySelect.value === category) {
-                showRandomQuote();
+                generateQuote();
             }
             
             alert('Quote added successfully!');
