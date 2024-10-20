@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
             quoteDisplay.textContent = `New quote added: "${newQuote}"`;
             
             // If the current category is selected, regenerate the quote to possibly show the new one
-            if (categorySelect.value === category) {
+        if (categorySelect.value === category) {
                 generateQuote();
             }
             
@@ -60,7 +60,10 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Please select a category and enter a quote.');
         }
     });
-
+         // Append the new elements to the display
+    quoteDisplay.appendChild(quoteText);
+    quoteDisplay.appendChild(quoteCategory);
+    
     addCategoryForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const newCategory = document.getElementById('new-category').value;
