@@ -46,6 +46,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if (category && newQuote) {
             quotes[category].push(newQuote);
             document.getElementById('new-quote').value = '';
+            
+            // Update the quote display to show the new quote
+            quoteDisplay.textContent = `New quote added: "${newQuote}"`;
+            
+            // If the current category is selected, regenerate the quote to possibly show the new one
+            if (categorySelect.value === category) {
+                generateQuote();
+            }
+            
             alert('Quote added successfully!');
         } else {
             alert('Please select a category and enter a quote.');
