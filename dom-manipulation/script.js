@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // If the current category is selected, regenerate the quote to possibly show the new one
             if (categorySelect.value === category) {
-                generateQuote();
+                showRandomQuote();
             }
             
             alert('Quote added successfully!');
