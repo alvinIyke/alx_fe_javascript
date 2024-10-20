@@ -60,7 +60,11 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Please select a category and enter a quote.');
         }
     });
-         // Append the new elements to the display
+       // Create elements for new quote display
+    const quoteText = document.createElement("p");
+    const quoteCategory = document.createElement("p");
+   
+    // Append the new elements to the display
     quoteDisplay.appendChild(quoteText);
     quoteDisplay.appendChild(quoteCategory);
     
