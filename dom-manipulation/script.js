@@ -6,16 +6,33 @@ document.addEventListener('DOMContentLoaded', function() {
     const createAddQuoteForm = document.getElementById('createAddQuoteForm');
     const addCategoryForm = document.getElementById('add-category-form');
 
-    let quotes = {
-        'Motivation': [
-            'The only way to do great work is to love what you do. - Steve Jobs',
-            'Success is not final, failure is not fatal: it is the courage to continue that counts. - Winston Churchill'
-        ],
-        'Wisdom': [
-            'The only true wisdom is in knowing you know nothing. - Socrates',
-            'In the end, it\'s not the years in your life that count. It\'s the life in your years. - Abraham Lincoln'
-        ]
-    };
+    let quotes = loadQuotes();
+
+    function loadQuotes() {
+        const storedQuotes = localStorage.getItem('quotes');
+        return storedQuotes ? JSON.parse(storedQuotes) : {
+            'Motivation': [
+                'The only way to do great work is to love what you do. - Steve Jobs',
+                'Success is not final, failure is not fatal: it is the courage to continue that counts. - Winston Churchill'
+            ],
+            'Wisdom': [
+                'The only true wisdom is in knowing you know nothing. - Socrates',
+                'In the end, it\'s not the years in your life that count. It\'s the life in your years. - Abraham Lincoln'
+            ]
+        };
+    
+        // save to local storage
+    function saveQuotes() {
+            localStorage.setItem('quotes', JSON.stringify(quotes));
+    }
+    function saveCategories() {
+        localStorage.setItem('categories', JSON.stringify(categories));
+    }  
+       // save to session storage
+    function saveToSessionStorage() {
+        sessionStorage.setItem('categories', JSON.stringify(categories));
+        sessionStorage.setItem('quotes', JSON.stringify(quotes));
+    }    
 
     function updateCategorySelects() {
         const categories = Object.keys(quotes);
@@ -26,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
             quoteCategory.innerHTML += `<option value="${category}">${category}</option>`;
         });
     }
-
+     
     function showRandomQuote() {
         const category = categorySelect.value;
         if (category && quotes[category].length > 0) {
@@ -38,6 +55,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     displayRandomQuoteBtn.addEventListener('click', showRandomQuote);
+      // Clear previous quote display
+    const quoteDisplay = document.getElementById('quote-display');
+    quoteDisplay.innerHTML = ''; // Clear existing content
+      
+     // Create elements for new quote display
+     const quoteText = document.createElement("p");
+     const quoteCategory = document.createElement("p");
+    
 
     createAddQuoteForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -60,10 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Please select a category and enter a quote.');
         }
     });
-       // Create elements for new quote display
-    const quoteText = document.createElement("p");
-    const quoteCategory = document.createElement("p");
-   
+      
     // Append the new elements to the display
     quoteDisplay.appendChild(quoteText);
     quoteDisplay.appendChild(quoteCategory);
@@ -82,4 +104,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     updateCategorySelects();
-});
+}});

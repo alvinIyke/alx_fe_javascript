@@ -18,6 +18,12 @@
             margin: 20px 0;
             border-radius: 5px;
         }
+        #last-quote-display{
+            background-color: rgb(217, 241, 177);
+            padding: 40px;
+            margin: 20px 0;
+            border-radius: 5px;  
+        }
         form {
             margin-bottom: 20px;
         }
