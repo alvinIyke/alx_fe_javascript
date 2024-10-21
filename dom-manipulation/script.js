@@ -46,12 +46,15 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('save-session-storage-btn').addEventListener('click', saveToSessionStorage);
     
     // Populate categories select
-    categories.forEach(category => {
-    const option = document.createElement('option');
-    option.value = category;
-    option.textContent = category;
-    document.getElementById('category-select').appendChild(option);
-});
+    function populateCategories() {
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category;
+            option.textContent = category;
+            document.getElementById('category-select').appendChild(option);
+        });
+    }
+    
 
     function updateCategorySelects() {
         const categories = Object.keys(quotes);
