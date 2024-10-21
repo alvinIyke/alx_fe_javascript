@@ -40,6 +40,16 @@
                 <button type="submit">Add Category</button>
             </form>
         </div>
+        <div class="storage-section">
+            <button id="save-local-storage-btn">Save to Local Storage</button>
+            <button id="load-local-storage-btn">Load from Local Storage</button>
+            <button id="save-session-storage-btn">Save to Session Storage</button>
+            <button id="load-session-storage-btn">Load from Session Storage</button>
+            <button id="export-json-btn">Export Quotes (JSON)</button>
+            <input id="import-json-input" type="file" accept=".json" onchange="importFromJsonFile(event)" />
+            <button id="import-json-btn">Import Quotes (JSON)</button>
+        </div>
+
     </div>
     <script src="script.js"></script>
 </body>

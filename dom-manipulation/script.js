@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const createAddQuoteForm = document.getElementById('createAddQuoteForm');
     const addCategoryForm = document.getElementById('add-category-form');
 
+    // Load from local storage
     let quotes = loadQuotes();
-
     function loadQuotes() {
         const storedQuotes = localStorage.getItem('quotes');
         return storedQuotes ? JSON.parse(storedQuotes) : {
@@ -20,6 +20,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 'In the end, it\'s not the years in your life that count. It\'s the life in your years. - Abraham Lincoln'
             ]
         };
+    
+    // Load data from session storage
+    if (sessionStorage.getItem('categories') && sessionStorage.getItem('quotes')) {
+    categories = JSON.parse(sessionStorage.getItem('categories'));
+    quotes = JSON.parse(sessionStorage.getItem('quotes'));
+}
     
         // save to local storage
     function saveQuotes() {
@@ -43,7 +49,13 @@ document.addEventListener('DOMContentLoaded', function() {
             quoteCategory.innerHTML += `<option value="${category}">${category}</option>`;
         });
     }
-     
+    document.getElementById('save-local-storage-btn').addEventListener('click', saveToLocalStorage);
+    document.getElementById('load-local-storage-btn').addEventListener('click', loadFromLocalStorage);
+    document.getElementById('save-session-storage-btn').addEventListener('click', saveToSessionStorage);
+    document.getElementById('load-session-storage-btn').addEventListener('click', loadFromSessionStorage);
+    document.getElementById('export-json-btn').addEventListener('click', exportToJson);
+    document.getElementById('import-json-btn').addEventListener('click', importFromJson);
+ 
     function showRandomQuote() {
         const category = categorySelect.value;
         if (category && quotes[category].length > 0) {
