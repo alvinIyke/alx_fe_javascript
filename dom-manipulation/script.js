@@ -45,6 +45,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }    
     document.getElementById('save-session-storage-btn').addEventListener('click', saveToSessionStorage);
     
+    // Populate categories select
+    categories.forEach(category => {
+    const option = document.createElement('option');
+    option.value = category;
+    option.textContent = category;
+    document.getElementById('category-select').appendChild(option);
+});
+
     function updateCategorySelects() {
         const categories = Object.keys(quotes);
         categorySelect.innerHTML = '<option value="">Select a category</option>';
@@ -58,10 +66,12 @@ document.addEventListener('DOMContentLoaded', function() {
    // function to import JSON data
     function importFromJsonFile() {
           const jsonData = JSON.parse({ categories, quotes});
-          quotes.push(...importedQuotes);
+          const importedData = importFromJson(jsonData);
+          quotes.push({ categories, quotes});
           saveQuotes();
           alert('Quotes imported successfully!');
         };
+
     document.getElementById('import-json-btn').addEventListener('click', importFromJson);
 
     // function to export JSON data
