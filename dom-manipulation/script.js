@@ -74,7 +74,8 @@ document.addEventListener('DOMContentLoaded', function() {
           saveQuotes();
           alert('Quotes imported successfully!');
         };
-
+        fileReader.readAsText(event.target.files[0]);
+    
     document.getElementById('import-json-btn').addEventListener('click', importFromJson);
 
     // function to export JSON data
