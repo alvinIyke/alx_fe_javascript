@@ -56,6 +56,27 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('export-json-btn').addEventListener('click', exportToJson);
     document.getElementById('import-json-btn').addEventListener('click', importFromJson);
  
+    function importFromJsonFile(event) {
+        const fileReader = new FileReader();
+        fileReader.onload = function(event) {
+          const importedQuotes = JSON.parse(event.target.result);
+          quotes.push(...importedQuotes);
+          saveQuotes();
+          alert('Quotes imported successfully!');
+        };
+        fileReader.readAsText(event.target.files[0]);
+      }
+      function exportToJsonFile(event) {
+        const fileReader = new FileReader();
+        fileReader.onload = function(event) {
+          const exportedQuotes = JSON.stringify(event.target.result);
+          quotes.push(...exportedQuotes);
+          saveQuotes();
+          alert('Quotes exported successfully!');
+        };
+        fileReader.readAsText(event.target.files[0]);
+      }  
+
     function showRandomQuote() {
         const category = categorySelect.value;
         if (category && quotes[category].length > 0) {
