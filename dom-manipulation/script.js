@@ -68,6 +68,8 @@ document.addEventListener('DOMContentLoaded', function() {
    
    // function to import JSON data
     function importFromJsonFile() {
+        const fileReader = new FileReader();
+        fileReader.onload = function(event) {
           const jsonData = JSON.parse({ categories, quotes});
           const importedData = importFromJson(jsonData);
           quotes.push({ categories, quotes});
@@ -75,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
           alert('Quotes imported successfully!');
         };
         fileReader.readAsText(event.target.files[0]);
-    
+
     document.getElementById('import-json-btn').addEventListener('click', importFromJson);
 
     // function to export JSON data
@@ -154,4 +156,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     updateCategorySelects();
-}});
+}}
+});
