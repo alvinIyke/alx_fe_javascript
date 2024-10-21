@@ -20,12 +20,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 'In the end, it\'s not the years in your life that count. It\'s the life in your years. - Abraham Lincoln'
             ]
         };
+    document.getElementById('load-local-storage-btn').addEventListener('click', loadFromLocalStorage);
     
     // Load data from session storage
     if (sessionStorage.getItem('categories') && sessionStorage.getItem('quotes')) {
     categories = JSON.parse(sessionStorage.getItem('categories'));
     quotes = JSON.parse(sessionStorage.getItem('quotes'));
-}
+    }
+    document.getElementById('load-session-storage-btn').addEventListener('click', loadFromSessionStorage);
     
         // save to local storage
     function saveQuotes() {
@@ -34,12 +36,15 @@ document.addEventListener('DOMContentLoaded', function() {
     function saveCategories() {
         localStorage.setItem('categories', JSON.stringify(categories));
     }  
-       // save to session storage
+    document.getElementById('save-local-storage-btn').addEventListener('click', saveToLocalStorage);
+
+    // save to session storage
     function saveToSessionStorage() {
         sessionStorage.setItem('categories', JSON.stringify(categories));
         sessionStorage.setItem('quotes', JSON.stringify(quotes));
     }    
-
+    document.getElementById('save-session-storage-btn').addEventListener('click', saveToSessionStorage);
+    
     function updateCategorySelects() {
         const categories = Object.keys(quotes);
         categorySelect.innerHTML = '<option value="">Select a category</option>';
@@ -49,33 +54,31 @@ document.addEventListener('DOMContentLoaded', function() {
             quoteCategory.innerHTML += `<option value="${category}">${category}</option>`;
         });
     }
-    document.getElementById('save-local-storage-btn').addEventListener('click', saveToLocalStorage);
-    document.getElementById('load-local-storage-btn').addEventListener('click', loadFromLocalStorage);
-    document.getElementById('save-session-storage-btn').addEventListener('click', saveToSessionStorage);
-    document.getElementById('load-session-storage-btn').addEventListener('click', loadFromSessionStorage);
-    document.getElementById('export-json-btn').addEventListener('click', exportToJson);
-    document.getElementById('import-json-btn').addEventListener('click', importFromJson);
- 
-    function importFromJsonFile(event) {
-        const fileReader = new FileReader();
-        fileReader.onload = function(event) {
-          const importedQuotes = JSON.parse(event.target.result);
+   
+   // function to import JSON data
+    function importFromJsonFile() {
+          const jsonData = JSON.parse({ categories, quotes});
           quotes.push(...importedQuotes);
           saveQuotes();
           alert('Quotes imported successfully!');
         };
-        fileReader.readAsText(event.target.files[0]);
-      }
-      function exportToJsonFile(event) {
-        const fileReader = new FileReader();
-        fileReader.onload = function(event) {
-          const exportedQuotes = JSON.stringify(event.target.result);
-          quotes.push(...exportedQuotes);
-          saveQuotes();
-          alert('Quotes exported successfully!');
-        };
-        fileReader.readAsText(event.target.files[0]);
-      }  
+    document.getElementById('import-json-btn').addEventListener('click', importFromJson);
+
+    // function to export JSON data
+    function exportToJsonFile() {
+          const jsonData = JSON.stringify({ categories, quotes});
+          const blob = new  Blob( [jsonData], {type: 'application/json'});
+          const url = URL.createObjectURL(Blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'quotes.json';
+          a.click();
+
+          URL.revokeObjectURL(url);
+     }   
+    document.getElementById('export-json-btn').addEventListener('click', exportToJson);
+          
+      
 
     function showRandomQuote() {
         const category = categorySelect.value;
