@@ -29,7 +29,7 @@
                     <option value="">Select a category</option>
                 </select>
                 <input type="text" id="new-quote" placeholder="Enter a new quote" required>
-                <button type="submit">Add Quote</button>
+                <button onclick="addQuote()">Add Quote</button>
             </form>
         </div>
     
@@ -39,6 +39,11 @@
                 <input type="text" id="new-category" placeholder="Enter quote category" required>
                 <button type="submit">Add Category</button>
             </form>
+            <h2>Category Filter</h2>
+            <select id="categoryFilter" onchange="filterQuotes()">
+                <option value="all">All Categories</option>
+                <!-- Dynamically populated categories -->
+              </select>
         </div>
         <div class="storage-section">
             <button id="save-local-storage-btn">Save to Local Storage</button>
