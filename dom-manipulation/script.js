@@ -111,6 +111,43 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => console.error('Error fetching quotes:', error));
     }
+
+    // Adding a new quote and syncing it to "server"
+    async function addQuote() {
+    const newQuoteText = document.getElementById("newQuoteText").value;
+    const newQuoteCategory = document.getElementById("newQuoteCategory").value;
+    const localQuotes = JSON.parse(localStorage.getItem('quotes')) || [];
+  
+    const newQuote = {
+      id: Date.now(), // Unique ID
+      text: newQuoteText,
+      category: newQuoteCategory,
+    };
+  
+    localQuotes.push(newQuote);
+    localStorage.setItem('quotes', JSON.stringify(localQuotes));
+  
+    // Simulate a POST to the server
+    await simulateServerPost(newQuote);
+    displayQuotes(localQuotes);
+  }
+  // Show sync notification
+   showSyncNotification("Quotes synced with server!");
+  // Function to simulate a server POST request
+    async function simulateServerPost(quote) {
+    try {
+      const response = await fetch(apiURL, {
+        method: "POST",
+        body: JSON.stringify(quote),
+        headers: { "Content-Type": "application/json" },
+      });
+      if (response.ok) {
+        console.log("Quote added to server:", quote);
+      }
+    } catch (error) {
+      console.error("Error syncing with server:", error);
+    }
+  }
     // Function to filter quotes based on the selected category
     function filterQuotes() {
        const selectedCategory = document.getElementById("categoryFilter").value;
@@ -132,7 +169,20 @@ document.addEventListener('DOMContentLoaded', function() {
        quoteDisplay.innerHTML = "No quotes available for this category.";
      }
     }
-    
+    // Notify user of updates
+    function notifyUser(message) {
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    setTimeout(() => {
+        notification.textContent = '';
+    }, 5000);
+    }
+
+    // Sync quotes periodically
+    function syncQuotes() {
+    fetchQuotesFromServer();
+    }
+
    // function to import JSON data
     function importFromJsonFile() {
         const fileReader = new FileReader();
@@ -227,5 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCategorySelects();  // Update the categories dropdown if a new category is added
     updateLocalStorage();     // Persist quotes and categories in localStorage
 }
+// Start periodic syncing every 10 seconds
+syncInterval = setInterval(syncQuotes, 10000);
 }}
 });
