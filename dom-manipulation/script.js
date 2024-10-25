@@ -81,7 +81,36 @@ document.addEventListener('DOMContentLoaded', function() {
             quoteCategory.innerHTML += `<option value="${category}">${category}</option>`;
         });
     }
-   
+    let quote = [];
+    const serverUrl = 'https://jsonplaceholder.typicode.com/posts'; // Mock API endpoint
+    let syncInterval;
+    
+    // Fetch quotes from server
+    function fetchQuotesFromServer() {
+        fetch(serverUrl)
+            .then(response => response.json())
+            .then(data => {
+                const newQuotes = data.map(item => ({
+                    text: item.body,
+                    category: item.title
+                }));
+    
+    // Conflict resolution: prefer server quotes
+                newQuotes.forEach(newQuote => {
+                    const existingQuoteIndex = quotes.findIndex(q => q.text === newQuote.text);
+                    if (existingQuoteIndex === -1) {
+                        quotes.push(newQuote);
+                    } else {
+    // Notify user of conflict resolution
+                        notifyUser(`Conflict resolved: "${newQuote.text}" was updated.`);
+                        quotes[existingQuoteIndex] = newQuote; // Update existing quote with server data
+                    }
+                });
+    
+                localStorage.setItem('quotes', JSON.stringify(quotes));
+            })
+            .catch(error => console.error('Error fetching quotes:', error));
+    }
     // Function to filter quotes based on the selected category
     function filterQuotes() {
        const selectedCategory = document.getElementById("categoryFilter").value;
@@ -132,8 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
      }   
     document.getElementById('export-json-btn').addEventListener('click', exportToJson);
           
-      
-
+    // function to display random quotes
     function showRandomQuote() {
         const category = categorySelect.value;
         if (category && quotes[category].length > 0) {
